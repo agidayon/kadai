@@ -10,7 +10,6 @@ phases:
         --service-role-arn arn:aws:iam::113627911083:role/YOUR-CODEDEPLOY-ROLE \
         --deployment-config-name CodeDeployDefault.OneAtATime \
         --ec2-tag-filters Key=Name,Value=YourEC2InstanceName,Type=KEY_AND_VALUE
-
       - aws deploy push --application-name XXX --s3-location s3://test-bucket1101-yamahiro/artifact.zip --source src
 artifacts:
   files:
