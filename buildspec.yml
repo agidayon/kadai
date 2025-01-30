@@ -1,10 +1,27 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - apt-get update -y && apt-get install -y zip
   build:
     commands:
-      - aws deploy push --application-name kadai --s3-location s3://test-bucket1101-yamahiro/artifact.zip --source src
+      - echo "Zipping source files..."
+      - zip -r artifact.zip src
+      - echo "Uploading artifact to S3..."
+      - aws s3 cp artifact.zip s3://test-bucket1101-yamahiro/artifact.zip
+  post_build:
+    commands:
+      - echo "Registering application revision..."
+      - aws deploy register-application-revision \
+          --application-name kadai \
+          --s3-location bucket=test-bucket1101-yamahiro,key=artifact.zip,bundleType=zip
+      - echo "Starting deployment..."
+      - aws deploy create-deployment \
+          --application-name kadai \
+          --deployment-group-name kadai-group \
+          --s3-location bucket=test-bucket1101-yamahiro,key=artifact.zip,bundleType=zip
 artifacts:
   files:
-    - '**/*'
-  base-directory: src
+    - artifact.zip
