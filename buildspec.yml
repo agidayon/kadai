@@ -15,12 +15,12 @@ phases:
     commands:
       - echo "Registering application revision..."
       - aws deploy register-application-revision \
-          --application-name kadai \
+          --application-name kadaidayo \
           --s3-location bucket=test-bucket1101-yamahiro,key=artifact.zip,bundleType=zip
       - echo "Starting deployment..."
       - aws deploy create-deployment \
-          --application-name kadai \
-          --deployment-group-name kadai-group \
+          --application-name kadaidayo \
+          --deployment-group-name kadaidayogroup \
           --s3-location bucket=test-bucket1101-yamahiro,key=artifact.zip,bundleType=zip
 artifacts:
   files:
